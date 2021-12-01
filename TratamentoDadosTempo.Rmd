@@ -1,0 +1,64 @@
+---
+title: "Tratamento de Dados Tempo"
+output: html_notebook
+---
+```{r}
+dados = read.csv("dados/tempo.csv", sep = ";", na.strings="", stringsAsFactor=T)
+dados
+```
+```{r}
+counts = table(dados$Aparencia)
+barplot(counts, main="Aparencia", xlab="Aparencia")
+# TODO: resolver dados Aparencia
+```
+
+```{r}
+# Resolvendo dados Aparencia
+dados[dados$Aparencia == 'menos',]$Aparencia = 'sol'
+dados$Aparencia = factor(dados$Aparencia)
+summary(dados$Aparencia)
+```
+
+```{r}
+boxplot(dados$Temperatura)
+# TODO: Resolver dados Temperatura
+```
+
+
+```{r}
+# Resolvendo dados Temperatura
+desvio = sd(dados$Temperatura, na.rm = T)
+dados[dados$Temperatura >= 2 * desvio, ]$Temperatura = median(dados$Temperatura)
+boxplot(dados$Temperatura)
+```
+
+```{r}
+boxplot(dados$Umidade)
+# TODO: Resolver dados Umidade
+```
+
+
+```{r}
+# Resolvendo dados Umidade
+desvio = sd(dados$Umidade, na.rm = T)
+dados[dados$Umidade > 100 | is.na(dados$Umidade), ]$Umidade = median(dados$Umidade, na.rm = T)
+boxplot(dados$Umidade)
+```
+
+```{r}
+summary(dados$Vento)
+# TODO: resolver NULOS Vento
+```
+
+
+```{r}
+# Resolvendo NULOS Vento
+dados[is.na(dados$Vento),]$Vento = "FALSO"
+summary(dados$Vento)
+```
+
+
+```{r}
+summary(dados$Jogar)
+```
+
